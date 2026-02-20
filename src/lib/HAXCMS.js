@@ -1863,8 +1863,13 @@ class HAXCMSClass {
     }
     let themeSelect = {};
     // ensure field schema has correct theme options
+    // filter hidden / terrible themes from the site settings dialog
     for (var name in this.config.themes) {
-      themeSelect[name] = this.config.themes[name].name;
+      let theme = this.config.themes[name];
+      if (theme && (theme.hidden || theme.terrible)) {
+        continue;
+      }
+      themeSelect[name] = theme.name;
     }
     // @todo this is VERY hacky specific placement of the theme options
     this.config.site.fields[0].properties[1].properties[0].options = themeSelect;
